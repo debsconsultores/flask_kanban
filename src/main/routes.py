@@ -4,5 +4,5 @@ from src.main import bp
 
 @bp.route('/')
 def index():
-    return render_template('index.html',title="Dashboard Kanban")
+    return render_template('index.html',title="Dashboard Kanban::::")
 
