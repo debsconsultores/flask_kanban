@@ -10,7 +10,7 @@ def create_app(config_class=Config):
     def health_check():
         return {
             "status": "up",
-            "environment": app.config.get("ENV")
+            "environment": app.config.get("ENVIRONMENT")
         },200
 
     return app
