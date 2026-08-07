@@ -7,6 +7,6 @@ class Config:
     ENVIRONMENT = os.environ.get("FLASK_ENV","production") 
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'postgresql://flask_user:flask_password@localhost:5432/kanban_prod'
+        'postgresql://flask_user:flask_password@localhost:5432/kanban_dev'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
