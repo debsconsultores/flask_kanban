@@ -13,6 +13,11 @@ class SoftDeleteMixin:
         db.session.add(self)
         db.session.commit()
 
+    def restore(self):
+        self.delete_at = None
+        db.session.add(self)
+        db.session.commit()
+
 
 class User(db.Model):
     __tablename__ = "users"
