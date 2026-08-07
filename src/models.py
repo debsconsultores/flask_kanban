@@ -5,6 +5,15 @@ from datetime import datetime, timezone
 db = SQLAlchemy()
 
 
+class SoftDeleteMixin:
+    delete_at = db.Column(db.DateTime, nullable=True)
+
+    def delete(self):
+        self.delete_at = datetime.now(timezone.utc)
+        db.session.add(self)
+        db.session.commit()
+
+
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -13,7 +22,7 @@ class User(db.Model):
     tasks = db.relationship('Task', backref='author', lazy=True)
 
 
-class Task(db.Model):
+class Task(db.Model, SoftDeleteMixin):
     __tablename__ = "tasks"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=True)
