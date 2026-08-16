@@ -1,13 +1,15 @@
 from flask import Flask
 from config import Config
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 from src.models import db
 from flask_migrate import Migrate
 
 migrate = Migrate()
 bcrypt = Bcrypt()
-
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -18,6 +20,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
 
     bcrypt.init_app(app)
+    login_manager.init_app(app)
 
     # Registro de Blueprints...
     from src.main import bp as main_bp
