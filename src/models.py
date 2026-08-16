@@ -42,5 +42,6 @@ class Task(db.Model, SoftDeleteMixin):
 @login_manager.user_loader
 def load_user(user_id):
     # Esta función le dice a Flask Login cómo obtener un usuario por Id
-    return User.query.get(int(user_id))
+    # return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
