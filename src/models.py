@@ -1,9 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 from flask_login import UserMixin
-from src import login_manager
+# from src import login_manager
 
-db = SQLAlchemy()
+# db = SQLAlchemy()
+from src.extensions import db, login_manager
 
 
 class SoftDeleteMixin:
