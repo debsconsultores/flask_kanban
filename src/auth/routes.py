@@ -39,9 +39,10 @@ def register():
             'success'
             )
         return redirect(url_for('auth.login'))
+        # return redirect(url_for('main.index'))
 
     return render_template(
         'auth/register.html',
-        title ='Registro',
+        title='Registro',
         form=form
     )
