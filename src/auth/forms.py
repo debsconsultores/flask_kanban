@@ -48,5 +48,5 @@ class LoginForm(FlaskForm):
 
     remember = BooleanField('Iniciar Sesión')
 
-    submint = SubmitField('Iniciar Sesión')
+    submit = SubmitField('Iniciar Sesión')
 

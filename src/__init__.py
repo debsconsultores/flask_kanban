@@ -32,7 +32,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp, url_prefix='/')
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    from src import models
+    from src.auth import utils
 
     @app.route('/health')
     def health_check():
