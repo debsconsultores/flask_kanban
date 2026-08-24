@@ -9,7 +9,7 @@ from flask import (
 from flask_login import current_user, login_user, login_required, logout_user
 from src.extensions import db, bcrypt
 from src.auth import bp
-from src.auth.forms import RegisterForm, LoginForm
+from src.auth.forms import RegisterForm, LoginForm, UpdatePasswordForm
 from src.models import User
 
 
@@ -131,3 +131,61 @@ def logout():
     # Después de cerrar sesión,
     # regresamos al formulario de login.
     return redirect(url_for('auth.login'))
+
+
+@bp.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+
+    # Creamos el formulario de cambio de contraseña.
+    form = UpdatePasswordForm()
+
+    # Procesamos el formulario cuando es enviado
+    # y sus validaciones son correctas.
+    if form.validate_on_submit():
+
+        # Verificamos la contraseña actual
+        # contra el hash almacenado.
+        if not bcrypt.check_password_hash(
+            current_user.password_hash,
+            form.current_password.data
+        ):
+
+            # Si no coincide, mostramos un mensaje
+            # y regresamos al perfil.
+            flash(
+                'La contraseña actual no es correcta',
+                'danger'
+            )
+
+            return redirect(
+                url_for('auth.profile')
+            )
+
+        # Generamos el hash de la nueva contraseña.
+        hashed_pw = bcrypt.generate_password_hash(
+            form.new_password.data
+        ).decode('utf-8')
+
+        # Actualizamos el hash del usuario actual.
+        current_user.password_hash = hashed_pw
+
+        # Guardamos los cambios en PostgreSQL.
+        db.session.commit()
+
+        # Informamos al usuario que la operación
+        # se realizó correctamente.
+        flash(
+            'Contraseña actualizada correctamente',
+            'success'
+        )
+
+        return redirect(
+            url_for('auth.profile')
+        )
+
+    # Mostramos el perfil.
+    return render_template(
+        'auth/profile.html',
+        form=form
+    )

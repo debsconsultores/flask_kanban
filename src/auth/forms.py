@@ -4,7 +4,7 @@ from wtforms import (StringField,
                      SubmitField,
                      BooleanField
                      )
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 
 
 class RegisterForm(FlaskForm):
@@ -49,4 +49,29 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Iniciar Sesión')
 
     submit = SubmitField('Iniciar Sesión')
+
+
+class UpdatePasswordForm(FlaskForm):
+    current_password = PasswordField(
+        'Contraseña Actual',
+        validators=[ DataRequired()]
+    )
+
+    new_password = PasswordField(
+        'Contraseña Nueva',
+        validators=[ DataRequired()]
+    )
+
+    confirm_new_password = PasswordField(
+            'Confirmar Contraseña Nueva',
+            validators=[
+                DataRequired(),
+                EqualTo(
+                    'new_password',
+                    message='Las Contraseñas no coinciden'
+                )
+            ]
+        )
+
+    submit = SubmitField('Actualizar Contraseña')
 

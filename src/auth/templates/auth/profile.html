@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-lg mx-auto bg-white p-8 rounded shadow">
+
+    <h2 class="text-2xl font-bold mb-6 text-center">
+        Perfil de Usuario
+    </h2>
+
+    <!-- Información del usuario -->
+    <div class="mb-6">
+
+        <p>
+            <strong>Usuario:</strong>
+            {{ current_user.username }}
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            {{ current_user.email }}
+        </p>
+
+    </div>
+
+    <hr class="mb-6">
+
+    <!-- Formulario de cambio de contraseña -->
+    <form method="POST">
+
+        {{ form.hidden_tag() }}
+
+        <div class="mb-4">
+
+            {{ form.current_password.label(
+                class="block mb-1"
+            ) }}
+
+            {{ form.current_password(
+                class="w-full p-2 border rounded"
+            ) }}
+
+        </div>
+
+        <div class="mb-4">
+
+            {{ form.new_password.label(
+                class="block mb-1"
+            ) }}
+
+            {{ form.new_password(
+                class="w-full p-2 border rounded"
+            ) }}
+
+        </div>
+
+        <div class="mb-4">
+
+            {{ form.confirm_new_password.label(
+                class="block mb-1"
+            ) }}
+
+            {{ form.confirm_new_password(
+                class="w-full p-2 border rounded"
+            ) }}
+
+            <!-- Mostramos errores de validación -->
+            {% for error in form.confirm_new_password.errors %}
+
+                <div class="text-red-600 text-sm mt-1">
+                    {{ error }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div>
+
+            {{ form.submit(
+                class="w-full bg-indigo-600 text-white p-2 rounded hover:bg-indigo-700"
+            ) }}
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
