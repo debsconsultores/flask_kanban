@@ -142,3 +142,22 @@ def test_logout_protects_dashboard(client, app):
     assert response.status_code == 302
     assert "/auth/login" in response.location
 
+
+def test_authenticated_user_can_access_dashboard(client, user):
+    client.post(
+        "/auth/login",
+        data={
+            "email": user.email,
+            "password": "Password123!"
+        }
+    )
+
+    response = client.get("/auth/dashboard")
+
+    assert response.status_code == 200
+
+
+def test_user_has_hashed_password(user):
+    assert user.password_hash != "Password123!"
+    assert user.check_password("Password123!") is True
+    assert user.check_password("wrong") is False
