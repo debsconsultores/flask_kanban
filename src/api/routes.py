@@ -1,5 +1,9 @@
 from flask import jsonify, request
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import (
+    create_access_token,
+    jwt_required,
+    get_jwt_identity
+    )
 from sqlalchemy import select
 
 from src.api import bp
@@ -17,11 +21,13 @@ def test_api():
 
 
 @bp.route("/tasks", methods=["GET"])
+@jwt_required()
 def get_tasks():
     # tasks = Task.query.all()
-    user_id = 2
+    user_id = get_jwt_identity()
+
     statement = select(Task).where(
-        Task.user_id == user_id
+        Task.user_id == int(user_id)
     )
 
     tasks = db.session.execute(statement).scalars().all()

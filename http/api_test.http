@@ -7,11 +7,11 @@ GET http://127.0.0.1:5000/api/v1/info
 ### Obtener tareas
 GET http://127.0.0.1:5000/api/v1/tasks
 
-## Login API
-GET http://127.0.0.1:5000/api/v1/login
+### Login API
+POST http://127.0.0.1:5000/api/v1/login
 Content-Type: application/json
 
 {
-    "email": "usuario@example.com",
-    "password": "Pass"
+    "email": "debs@test.com",
+    "password": "123456"
 }
