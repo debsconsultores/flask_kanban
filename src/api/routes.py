@@ -1,7 +1,9 @@
 from flask import jsonify
+from sqlalchemy import select
 
 from src.api import bp
 from src.api.schemas import tasks_schema
+from src.extensions import db
 from src.models import Task
 
 @bp.route("/test", methods=["GET"])
@@ -15,7 +17,9 @@ def test_api():
 
 @bp.route("/tasks", methods=["GET"])
 def get_tasks():
-    tasks = Task.query.all()
+    # tasks = Task.query.all()
+    statement = select(Task)
+    tasks = db.session.execute(statement).scalars().all()
 
     result = tasks_schema.dump(tasks)
 
