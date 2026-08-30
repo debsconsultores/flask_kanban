@@ -68,3 +68,4 @@ def test_login_invalid_password(client):
 
     assert response.status_code == 200
     assert b"dashboard" not in response.data.lower()
+
