@@ -10,3 +10,10 @@ class Config:
         'postgresql://flask_user:flask_password@localhost:5432/kanban_dev'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    WTF_CSRF_ENABLED = False
+
