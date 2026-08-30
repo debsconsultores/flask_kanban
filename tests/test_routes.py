@@ -20,3 +20,14 @@ def test_dashboard_requires_login(client):
     assert response.status_code == 302
 
     assert "/login" in response.location
+
+
+def test_health_check(client):
+    response = client.get("/health")
+
+    assert response.status_code == 200
+
+    data = response.get_json()
+
+    assert data["status"] == "up"
+
