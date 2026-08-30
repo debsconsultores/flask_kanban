@@ -2,3 +2,7 @@ GET http://127.0.0.1:5000/api/v1/test
 
 ###
 GET http://127.0.0.1:5000/api/v1/info
+
+
+### Obtener tareas
+GET http://127.0.0.1:5000/api/v1/tasks
