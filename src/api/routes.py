@@ -18,7 +18,11 @@ def test_api():
 @bp.route("/tasks", methods=["GET"])
 def get_tasks():
     # tasks = Task.query.all()
-    statement = select(Task)
+    user_id = 2
+    statement = select(Task).where(
+        Task.user_id == user_id
+    )
+
     tasks = db.session.execute(statement).scalars().all()
 
     result = tasks_schema.dump(tasks)
