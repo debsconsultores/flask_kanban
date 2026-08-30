@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_jwt_extended import JWTManager
 
 # Extensión para trabajar con SQLAlchemy
 db = SQLAlchemy()
@@ -29,3 +30,5 @@ login_manager.login_view = 'auth.login'
 # Categoría que utilizarán los mensajes de Flask-Login
 # cuando redirija a un usuario no autenticado.
 login_manager.login_message_category = 'info'
+
+jwt = JWTManager()

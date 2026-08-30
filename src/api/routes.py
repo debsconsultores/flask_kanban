@@ -1,10 +1,11 @@
-from flask import jsonify
+from flask import jsonify, request
+from flask_jwt_extended import create_access_token
 from sqlalchemy import select
 
 from src.api import bp
 from src.api.schemas import tasks_schema
 from src.extensions import db
-from src.models import Task
+from src.models import Task, User
 
 @bp.route("/test", methods=["GET"])
 def test_api():
@@ -28,3 +29,32 @@ def get_tasks():
     result = tasks_schema.dump(tasks)
 
     return jsonify(result), 200
+
+
+
+@bp.route('/login', methods=["POST"])
+def api_login():
+
+    data = request.get_json()
+
+    email = data.get("email")
+    password = data.get("password")
+
+    user = db.session.scalar(
+        select(User).where(User.email == email)
+    )
+
+    if not user or not user.check_password(password):
+        return jsonify({
+            "error" : "Credenciales inválidas"
+        }),401
+
+    access_token = create_access_token(
+        identity=str(user.id)
+    )
+
+    return jsonify({
+        "access_token": access_token
+    }),200
+
+

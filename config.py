@@ -11,6 +11,9 @@ class Config:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or \
+            'dev-jwt-key-muy-secreta-2026-1234567890'
+
 
 class TestConfig(Config):
     TESTING = True

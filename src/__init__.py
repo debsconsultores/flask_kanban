@@ -1,7 +1,10 @@
 from flask import Flask
 from config import Config
 
-from src.extensions import db, migrate, bcrypt, login_manager
+from src.extensions import (
+    db, migrate, bcrypt, login_manager
+    ,jwt
+    )
 
 # from flask_bcrypt import Bcrypt
 # from flask_login import LoginManager
@@ -24,6 +27,7 @@ def create_app(config_class=Config):
 
     bcrypt.init_app(app)
     login_manager.init_app(app)
+    jwt.init_app(app)
 
     # Registro de Blueprints...
     from src.main import bp as main_bp
