@@ -141,3 +141,4 @@ def test_logout_protects_dashboard(client, app):
 
     assert response.status_code == 302
     assert "/auth/login" in response.location
+
