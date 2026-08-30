@@ -1,3 +1,7 @@
+from src.models import User
+from src.extensions import db
+
+
 def test_register_page(client):
     response = client.get("/auth/register")
 
@@ -69,3 +73,71 @@ def test_login_invalid_password(client):
     assert response.status_code == 200
     assert b"dashboard" not in response.data.lower()
 
+
+def create_test_user(app):
+    user = User(
+        username="auth test",
+        email="auth@test.com"
+    )
+
+    user.set_password("Password123!")
+
+    db.session.add(user)
+    db.session.commit()
+
+    return user
+
+
+def test_authenticated_user_can_access_dashboard(client, app):
+
+    create_test_user(app)
+
+    client.post(
+        "/auth/login",
+        data={
+            "email": "auth@test.com",
+            "password": "Password123!"
+        }
+    )
+
+    response = client.get("/auth/dashboard")
+
+    assert response.status_code == 200
+
+
+def test_logout(client, app):
+    create_test_user(app)
+    
+    client.post(
+        "/auth/login",
+        data={
+            "email": "auth@test.com",
+            "password": "Password123!"
+        }
+    )
+
+    response = client.get(
+        "/auth/logout",
+        follow_redirects=True
+    )
+
+    assert response.status_code == 200
+
+
+def test_logout_protects_dashboard(client, app):
+    create_test_user(app)
+        
+    client.post(
+        "/auth/login",
+        data={
+            "email": "auth@test.com",
+            "password": "Password123!"
+        }
+    )
+
+    client.get("/auth/logout")
+
+    response = client.get("/auth/dashboard")
+
+    assert response.status_code == 302
+    assert "/auth/login" in response.location
