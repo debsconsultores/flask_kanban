@@ -28,9 +28,11 @@ def create_app(config_class=Config):
     # Registro de Blueprints...
     from src.main import bp as main_bp
     from src.auth import bp as auth_bp
+    from src.api import bp as api_bp
 
     app.register_blueprint(main_bp, url_prefix='/')
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(api_bp, url_prefix='/api/v1')
 
     from src.auth import utils
 
