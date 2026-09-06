@@ -84,6 +84,11 @@ def create_task():
             {"error": "El título es requerido"}
         ), 400
 
+    if not title or not title.strip():
+        return jsonify({
+            "error": "El título es obligatorio"
+        }), 400
+
     task = Task(
         title=title,
         content=content,
