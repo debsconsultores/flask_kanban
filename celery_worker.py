@@ -11,3 +11,5 @@ class FlaskTask(celery.Task):
 
 
 celery.Task = FlaskTask
+
+import src.tasks
