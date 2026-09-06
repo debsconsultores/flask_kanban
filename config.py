@@ -14,6 +14,16 @@ class Config:
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or \
             'dev-jwt-key-muy-secreta-2026-1234567890'
 
+    # Broker utilizado por Celery.
+    CELERY_BROKER_URL = os.environ.get(
+        "CELERY_BROKER_URL"
+    ) or "redis://localhost:6379/0"
+
+    # Backend utilizado para almacenar resultados.
+    CELERY_RESULT_BACKEND = os.environ.get(
+        "CELERY_RESULT_BACKEND"
+    ) or "redis://localhost:6379/0"
+
 
 class TestConfig(Config):
     TESTING = True

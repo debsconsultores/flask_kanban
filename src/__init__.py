@@ -5,6 +5,7 @@ from src.extensions import (
     db, migrate, bcrypt, login_manager
     ,jwt
     )
+from src.celery_app import ini_celery
 
 # from flask_bcrypt import Bcrypt
 # from flask_login import LoginManager
@@ -28,6 +29,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     jwt.init_app(app)
+    ini_celery(app)
 
     # Registro de Blueprints...
     from src.main import bp as main_bp
