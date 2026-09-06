@@ -11,7 +11,7 @@ from src.api.schemas import tasks_schema, task_schema
 from src.extensions import db
 from src.models import Task, User
 
-from src.tasks import saludar
+from src.tasks import saludar, sumar
 
 @bp.route("/test", methods=["GET"])
 def test_api():
@@ -197,6 +197,17 @@ def test_celery():
 
     # Enviamos la tarea al broker.
     task = saludar.delay("Daniel")
+
+    return {
+        "message": "Tarea enviada correctamente",
+        "task_id": task.id
+    }, 202
+
+
+@bp.route("/test-celery-suma", methods=["GET"])
+def test_celery_suma():
+
+    task = sumar.delay(10, 5)
 
     return {
         "message": "Tarea enviada correctamente",

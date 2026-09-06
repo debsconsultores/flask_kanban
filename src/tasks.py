@@ -8,3 +8,13 @@ def saludar(nombre):
     print(mensaje)
 
     return mensaje
+
+
+@celery.task
+def sumar(a, b):
+    resultado = a + b
+
+    mensaje = f"La suma es: {resultado}"
+
+    print(mensaje)
+    return mensaje
