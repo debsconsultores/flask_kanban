@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ### Obtener tareas JWT
 GET http://127.0.0.1:5000/api/v1/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MTYwMywianRpIjoiOGRjYWU2M2MtYTdmZC00OTZkLWE2ZmEtYTE5NDM5Y2FmMWE4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzE2MDMsImNzcmYiOiJhMDEyNGVkNy1hZTlmLTRmZTYtOGQ4Mi03YjAwNTA2MDAzMmMiLCJleHAiOjE3ODg2NzI1MDN9.AGwqx7EeHYCwevhu_ZTlUeEi6AXvcDYGgu2vO4XpaXs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MjUyNiwianRpIjoiYzgyMWM2YzUtOTM5Zi00OTdiLTk0ZTQtMjRiMTE2MjZlMDVhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzI1MjYsImNzcmYiOiI4MWRjMWJjNi01MDdiLTRiOTYtOGM2NC0wNzM4YWNkZWZkNGIiLCJleHAiOjE3ODg2NzM0MjZ9.F_GjSZu7vDP5SX_Y5SEuUbIbEHacpJtufUVmm4LIoMw
 
 
 ### Crear Tarea
@@ -68,4 +68,10 @@ Content-Type: application/json
     "title": "Modificada PUT",
     "content": "Modificado por PUT"
 }
+
+### Eliminar Tarea
+### Crear Tarea
+DELETE http://127.0.0.1:5000/api/v1/tasks/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MjUyNiwianRpIjoiYzgyMWM2YzUtOTM5Zi00OTdiLTk0ZTQtMjRiMTE2MjZlMDVhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzI1MjYsImNzcmYiOiI4MWRjMWJjNi01MDdiLTRiOTYtOGM2NC0wNzM4YWNkZWZkNGIiLCJleHAiOjE3ODg2NzM0MjZ9.F_GjSZu7vDP5SX_Y5SEuUbIbEHacpJtufUVmm4LIoMw
+
 

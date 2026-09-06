@@ -27,7 +27,9 @@ def get_tasks():
     user_id = get_jwt_identity()
 
     statement = select(Task).where(
-        Task.user_id == int(user_id)
+        Task.user_id == int(user_id),
+        Task.delete_at.is_(None)
+        
     )
 
     tasks = db.session.execute(statement).scalars().all()
@@ -164,4 +166,34 @@ def update_task(task_id):
 
     return jsonify(result), 200
 
+
+@bp.route("/tasks/<int:task_id>", methods=["DELETE"])
+@jwt_required()
+def delete_task(task_id):
+    # Obtenemos la identidad del usuario autenticado.
+    user_id = get_jwt_identity()
+
+    # Buscamos la tarea perteneciente al usuario autenticado.
+    statement = select(Task).where(
+        Task.id == task_id,
+        Task.user_id == int(user_id)
+    )
+
+    task = db.session.execute(
+        statement
+    ).scalar_one_or_none()
+
+    # Si no existe o no pertenece al usuario,
+    # no permitimos realizar la operación.
+    if task is None:
+        return jsonify({
+            "error": "Tarea no encontrada"
+        }), 404
+
+    # Realizamos el borrado lógico.
+    task.delete()
+
+    return jsonify({
+        "message": "Tarea eliminada correctamente"
+    }), 200
 
