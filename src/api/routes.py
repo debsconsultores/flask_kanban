@@ -67,37 +67,96 @@ def api_login():
 @bp.route("/tasks", methods=["POST"])
 @jwt_required()
 def create_task():
+    # Obtenemos la identidad del usuario autenticado.
     user_id = get_jwt_identity()
 
+    # Obtenemos los datos enviados en formato JSON.
     data = request.get_json()
 
+    # Validamos que exista información en la petición.
     if not data:
-        return jsonify(
-            {"error": "No se recibieron datos"}
-        ), 400
+        return jsonify({
+            "error": "No se recibieron datos"
+        }), 400
 
+    # Obtenemos los campos de la nueva tarea.
     title = data.get("title")
     content = data.get("content")
 
+    # Validamos el título.
     if not title:
-        return jsonify(
-            {"error": "El título es requerido"}
-        ), 400
-
-    if not title or not title.strip():
         return jsonify({
             "error": "El título es obligatorio"
         }), 400
 
+    # Creamos la tarea asociándola al usuario autenticado.
     task = Task(
         title=title,
         content=content,
         user_id=int(user_id)
     )
 
+    # Guardamos la nueva tarea.
     db.session.add(task)
     db.session.commit()
 
+    # Convertimos la tarea a JSON.
     result = task_schema.dump(task)
 
+    # Devolvemos la tarea creada.
     return jsonify(result), 201
+
+
+@bp.route("/tasks/<int:task_id>", methods=["PUT"])
+@jwt_required()
+def update_task(task_id):
+    # Obtenemos la identidad del usuario autenticado.
+    user_id = get_jwt_identity()
+
+    # Obtenemos los datos enviados por el cliente.
+    data = request.get_json()
+
+    # Buscamos únicamente una tarea perteneciente
+    # al usuario autenticado.
+    statement = select(Task).where(
+        Task.id == task_id,
+        Task.user_id == int(user_id)
+    )
+
+    task = db.session.execute(
+        statement
+    ).scalar_one_or_none()
+
+    # Si la tarea no existe o no pertenece al usuario,
+    # devolvemos un error 404.
+    if task is None:
+        return jsonify({
+            "error": "Tarea no encontrada"
+        }), 404
+
+    # Actualizamos los campos recibidos.
+    if "title" in data:
+        if not data["title"].strip():
+            return jsonify({
+                "error": "El título no puede estar vacío"
+            }), 400
+
+        task.title = data["title"]
+
+    if "content" in data:
+        if not data["content"].strip():
+            return jsonify({
+                "error": "El contenido no puede estar vacío"
+            }), 400
+
+        task.content = data["content"]
+
+    # Guardamos los cambios.
+    db.session.commit()
+
+    # Serializamos la tarea actualizada.
+    result = task_schema.dump(task)
+
+    return jsonify(result), 200
+
+        
