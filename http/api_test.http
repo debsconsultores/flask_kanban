@@ -12,6 +12,41 @@ POST http://127.0.0.1:5000/api/v1/login
 Content-Type: application/json
 
 {
-    "email": "debs@test.com",
+    "email": "test@test.com",
     "password": "123456"
 }
+
+### Obtener tareas JWT
+GET http://127.0.0.1:5000/api/v1/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MDA4MiwianRpIjoiNjlkNmVjOGItY2U1Zi00MzcxLTk5YWEtYmZmOWIwMGFlNGUxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzAwODIsImNzcmYiOiIxYzk0Y2M4ZS0zYzI1LTQ1YjQtYmNkMi02NTBlOTVhMGQ1MDkiLCJleHAiOjE3ODg2NzA5ODJ9.JyOI2X5DInv3XdpGlnTrG8g8lDNRSu1Odr-mf5lTmT4
+
+
+### Crear Tarea
+POST http://127.0.0.1:5000/api/v1/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MDA4MiwianRpIjoiNjlkNmVjOGItY2U1Zi00MzcxLTk5YWEtYmZmOWIwMGFlNGUxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzAwODIsImNzcmYiOiIxYzk0Y2M4ZS0zYzI1LTQ1YjQtYmNkMi02NTBlOTVhMGQ1MDkiLCJleHAiOjE3ODg2NzA5ODJ9.JyOI2X5DInv3XdpGlnTrG8g8lDNRSu1Odr-mf5lTmT4
+Content-Type: application/json
+
+{
+    "title": "Nueva tarea desde la API",
+    "content": "Esta tarea fue creada utilizando POST"
+}
+
+### Crear Tarea
+POST http://127.0.0.1:5000/api/v1/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MDA4MiwianRpIjoiNjlkNmVjOGItY2U1Zi00MzcxLTk5YWEtYmZmOWIwMGFlNGUxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzAwODIsImNzcmYiOiIxYzk0Y2M4ZS0zYzI1LTQ1YjQtYmNkMi02NTBlOTVhMGQ1MDkiLCJleHAiOjE3ODg2NzA5ODJ9.JyOI2X5DInv3XdpGlnTrG8g8lDNRSu1Odr-mf5lTmT4
+Content-Type: application/json
+
+{
+    "content": "Esta tarea fue creada utilizando POST"
+}
+
+### Crear Tarea
+POST http://127.0.0.1:5000/api/v1/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MDA4MiwianRpIjoiNjlkNmVjOGItY2U1Zi00MzcxLTk5YWEtYmZmOWIwMGFlNGUxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzAwODIsImNzcmYiOiIxYzk0Y2M4ZS0zYzI1LTQ1YjQtYmNkMi02NTBlOTVhMGQ1MDkiLCJleHAiOjE3ODg2NzA5ODJ9.JyOI2X5DInv3XdpGlnTrG8g8lDNRSu1Odr-mf5lTmT4
+Content-Type: application/json
+
+{
+    "title": "   ",
+    "content": "Esta tarea fue creada utilizando POST"
+}
+

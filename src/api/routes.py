@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 from sqlalchemy import select
 
 from src.api import bp
-from src.api.schemas import tasks_schema
+from src.api.schemas import tasks_schema, task_schema
 from src.extensions import db
 from src.models import Task, User
 
@@ -64,3 +64,35 @@ def api_login():
     }),200
 
 
+@bp.route("/tasks", methods=["POST"])
+@jwt_required()
+def create_task():
+    user_id = get_jwt_identity()
+
+    data = request.get_json()
+
+    if not data:
+        return jsonify(
+            {"error": "No se recibieron datos"}
+        ), 400
+
+    title = data.get("title")
+    content = data.get("content")
+
+    if not title:
+        return jsonify(
+            {"error": "El título es requerido"}
+        ), 400
+
+    task = Task(
+        title=title,
+        content=content,
+        user_id=int(user_id)
+    )
+
+    db.session.add(task)
+    db.session.commit()
+
+    result = task_schema.dump(task)
+
+    return jsonify(result), 201
