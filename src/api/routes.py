@@ -77,9 +77,7 @@ def create_task():
 
     # Validamos que exista información en la petición.
     if not data:
-        return jsonify({
-            "error": "No se recibieron datos"
-        }), 400
+        return error_response("No se recibieron datos", 400)
 
     # Obtenemos los campos de la nueva tarea.
     title = data.get("title")
@@ -87,9 +85,7 @@ def create_task():
 
     # Validamos el título.
     if not title:
-        return jsonify({
-            "error": "El título es obligatorio"
-        }), 400
+        return error_response("El título es obligatorio", 400)
 
     # Creamos la tarea asociándola al usuario autenticado.
     task = Task(
@@ -132,29 +128,21 @@ def update_task(task_id):
     # Si la tarea no existe o no pertenece al usuario,
     # devolvemos un error 404.
     if task is None:
-        return jsonify({
-            "error": "Tarea no encontrada"
-        }), 404
+        return error_response("Tarea No Encontrada", 404)
 
     # Actualizamos los campos recibidos.
     if "title" in data:
         if not data["title"].strip():
-            return jsonify({
-                "error": "El título no puede estar vacío"
-            }), 400
+            return error_response("El título no puede estar vacío", 400)
 
         task.title = data["title"]
 
-    if "content" in data:        
+    if "content" in data:
         if not data["content"].strip():
-            return jsonify({
-                "error": "El contenido no puede estar vacío"
-            }), 400
+            return error_response("El contenido no puede estar vacío", 400)
 
         if not isinstance(data["content"], str):
-            return jsonify({
-                "error": "El contenido debe ser una cadena"
-            }), 400
+            return error_response("El contenido debe ser una cadena", 400)
 
         task.content = data["content"]
 
@@ -186,9 +174,7 @@ def delete_task(task_id):
     # Si no existe o no pertenece al usuario,
     # no permitimos realizar la operación.
     if task is None:
-        return jsonify({
-            "error": "Tarea no encontrada"
-        }), 404
+        return error_response("Tarea no encontrada", 404)
 
     # Realizamos el borrado lógico.
     task.delete()
@@ -197,3 +183,8 @@ def delete_task(task_id):
         "message": "Tarea eliminada correctamente"
     }), 200
 
+
+def error_response(message, status_code):
+    return jsonify({
+        "error": message
+    }), status_code
