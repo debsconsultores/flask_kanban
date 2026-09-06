@@ -143,10 +143,15 @@ def update_task(task_id):
 
         task.title = data["title"]
 
-    if "content" in data:
+    if "content" in data:        
         if not data["content"].strip():
             return jsonify({
                 "error": "El contenido no puede estar vacío"
+            }), 400
+
+        if not isinstance(data["content"], str):
+            return jsonify({
+                "error": "El contenido debe ser una cadena"
             }), 400
 
         task.content = data["content"]
@@ -159,4 +164,4 @@ def update_task(task_id):
 
     return jsonify(result), 200
 
-        
+
