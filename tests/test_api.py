@@ -75,3 +75,19 @@ def test_get_tasks_authenticated(client, user):
 
     data = response.get_json()
     assert isinstance(data, list)
+
+
+def test_api_login_invalid_password(client, user):
+    """Verifica que el login rechace una contraseña incorrecta."""
+
+    response = client.post(
+        "/api/v1/login",
+        json={
+            "email": user["email"],
+            "password": "WrongPassword123!"
+        }
+    )
+
+    assert response.status_code == 401
+
+
