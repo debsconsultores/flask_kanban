@@ -264,3 +264,18 @@ def test_delete_task_no_show(client, user):
     data = response.get_json()
 
     assert len(data) == 0
+
+
+def test_create_task_requires_authentication(client):
+    """Verifica que un usuario no autenticado no pueda crear tareas."""
+
+    response = client.post(
+        "/api/v1/tasks",
+        json={
+            "title": "Tarea sin autenticación",
+            "content": "No debería crearse"
+        }
+    )
+
+    assert response.status_code == 401
+
