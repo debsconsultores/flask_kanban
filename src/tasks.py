@@ -49,3 +49,19 @@ def tarea_con_error():
 
     # Provocamos intencionalmente una excepción.
     raise ValueError("Se produjo un error de prueba.")
+
+
+@celery.task
+def dividir(a, b):
+    """
+    Divide dos números.
+
+    Permite comprobar los estados
+    SUCCESS y FAILURE.
+    """
+
+    resultado = a / b
+
+    print(f"Resultado: {resultado}")
+
+    return resultado

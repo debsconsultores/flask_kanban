@@ -86,9 +86,15 @@ GET http://127.0.0.1:5000/api/v1/test-celery-suma
 POST http://127.0.0.1:5000/api/v1/test-celery/10
 
 ### Consultar el estado de la tarea
-GET http://127.0.0.1:5000/api/v1/test-celery/status/185e68c0-cbf0-4d65-99ad-b7ade2be40ec
+GET http://127.0.0.1:5000/api/v1/test-celery/status/d4d15cb9-fa8c-4c57-a503-5931054b942d
 
 
 ### Celery con Errores
 POST http://127.0.0.1:5000/api/v1/test-celery/error
 Content-Type: application/json
+
+### EXITOSO
+POST http://127.0.0.1:5000/api/v1/test-celery/dividir/10/2
+
+###ERROR:
+POST http://127.0.0.1:5000/api/v1/test-celery/dividir/10/0
