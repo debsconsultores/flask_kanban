@@ -77,3 +77,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsI
 
 ### Test 1 Celery
 GET http://127.0.0.1:5000/api/v1/test-celery
+
+### Test 2 Celery
+GET http://127.0.0.1:5000/api/v1/test-celery-suma
+
+
+### Test Asincrono
+POST http://127.0.0.1:5000/api/v1/test-celery/10
+
