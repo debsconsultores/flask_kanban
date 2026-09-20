@@ -31,7 +31,7 @@ def procesar_tarea(task_id):
     print(f"Iniciando procesamiento de la tarea {task_id}")
 
     # Simulamos un proceso que tarda algunos segundos.
-    time.sleep(10)
+    time.sleep(30)
 
     print(f"Procesamiento de la tarea {task_id} finalizado")
 

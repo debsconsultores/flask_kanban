@@ -6,6 +6,8 @@ from flask_jwt_extended import (
     )
 from sqlalchemy import select
 
+from celery.result import AsyncResult
+
 from src.api import bp
 from src.api.schemas import tasks_schema, task_schema
 from src.extensions import db
@@ -226,3 +228,22 @@ def test_celery_2(task_id):
         "task_id": task.id
     }, 202
 
+
+
+@bp.route("/test-celery/status/<task_id>", methods=["GET"])
+def test_celery_status(task_id):
+
+    # Buscamos la tarea utilizando su identificador.
+    task = AsyncResult(task_id)
+
+    response = {
+        "task_id": task.id,
+        "status": task.status
+    }
+
+    # Si la tarea terminó correctamente,
+    # mostramos también su resultado.
+    if task.successful():
+        response["result"] = task.result
+
+    return response, 200
