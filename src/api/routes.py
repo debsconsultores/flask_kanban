@@ -13,7 +13,7 @@ from src.api.schemas import tasks_schema, task_schema
 from src.extensions import db
 from src.models import Task, User
 
-from src.tasks import saludar, sumar, procesar_tarea
+from src.tasks import saludar, sumar, procesar_tarea, tarea_con_error
 
 @bp.route("/test", methods=["GET"])
 def test_api():
@@ -242,8 +242,25 @@ def test_celery_status(task_id):
     }
 
     # Si la tarea terminó correctamente,
-    # mostramos también su resultado.
+    # mostramos su resultado.
     if task.successful():
         response["result"] = task.result
 
+    # Si la tarea terminó con error,   <<<<<<nuevo
+    # informamos que el procesamiento falló.
+    elif task.failed():
+        response["error"] = str(task.result)
+
     return response, 200
+
+
+@bp.route("/test-celery/error", methods=["POST"])
+def test_celery_error():
+
+    # Enviamos la tarea al Worker.
+    task = tarea_con_error.delay()
+
+    return {
+        "message": "Tarea enviada correctamente",
+        "task_id": task.id
+    }, 202

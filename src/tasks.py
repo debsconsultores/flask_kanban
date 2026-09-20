@@ -36,3 +36,16 @@ def procesar_tarea(task_id):
     print(f"Procesamiento de la tarea {task_id} finalizado")
 
     return f"Tarea {task_id} procesada correctamente."
+
+
+@celery.task
+def tarea_con_error():
+    """
+    Tarea utilizada para comprobar el manejo
+    de errores en Celery.
+    """
+
+    print("Iniciando tarea con error...")
+
+    # Provocamos intencionalmente una excepción.
+    raise ValueError("Se produjo un error de prueba.")

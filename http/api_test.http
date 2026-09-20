@@ -85,3 +85,10 @@ GET http://127.0.0.1:5000/api/v1/test-celery-suma
 ### Test Asincrono
 POST http://127.0.0.1:5000/api/v1/test-celery/10
 
+### Consultar el estado de la tarea
+GET http://127.0.0.1:5000/api/v1/test-celery/status/185e68c0-cbf0-4d65-99ad-b7ade2be40ec
+
+
+### Celery con Errores
+POST http://127.0.0.1:5000/api/v1/test-celery/error
+Content-Type: application/json
