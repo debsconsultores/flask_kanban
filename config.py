@@ -24,6 +24,13 @@ class Config:
         "CELERY_RESULT_BACKEND"
     ) or "redis://localhost:6379/0"
 
+    API_TITLE = "Kanban API"
+    API_VERSION = "v1"
+    OPENAPI_VERSION = "3.0.3"
+    OPENAPI_URL_PREFIX = "/api/docs"
+    OPENAPI_SWAGGER_UI_PATH = "/swagger-ui"
+    OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"    
+
 
 class TestConfig(Config):
     TESTING = True

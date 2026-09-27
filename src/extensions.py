@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_jwt_extended import JWTManager
 from celery import Celery
+from flask_smorest import Api
 
 # Extensión para trabajar con SQLAlchemy
 db = SQLAlchemy()
@@ -36,3 +37,5 @@ jwt = JWTManager()
 
 # Instancia de Celery
 celery = Celery(__name__)
+
+api = Api()

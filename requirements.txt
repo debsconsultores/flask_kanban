@@ -1,5 +1,6 @@
 alembic==1.19.1
 amqp==5.3.1
+apispec==6.10.0
 bcrypt==5.0.0
 billiard==4.2.4
 black==26.5.1
@@ -20,6 +21,7 @@ Flask-JWT-Extended==4.7.4
 Flask-Login==0.6.3
 flask-marshmallow==1.5.0
 Flask-Migrate==4.1.0
+flask-smorest==0.47.0
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.3.0
 greenlet==3.5.5
@@ -57,5 +59,6 @@ tzdata==2026.3
 tzlocal==5.4.4
 vine==5.1.0
 wcwidth==0.8.3
+webargs==8.7.1
 Werkzeug==3.1.8
 WTForms==3.2.2

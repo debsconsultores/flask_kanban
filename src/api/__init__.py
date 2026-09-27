@@ -1,8 +1,10 @@
-from flask import Blueprint
+# from flask import Blueprint
+from flask_smorest  import Blueprint
 
 bp = Blueprint(
     'api',
-    __name__
+    __name__,
+    url_prefix="/api/v1"
     )
 
 

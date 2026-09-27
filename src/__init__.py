@@ -4,6 +4,7 @@ from config import Config
 from src.extensions import (
     db, migrate, bcrypt, login_manager
     ,jwt
+    ,api as smorest_api
     )
 from src.celery_app import ini_celery
 
@@ -30,6 +31,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     jwt.init_app(app)
     ini_celery(app)
+    smorest_api.init_app(app)
 
     # Registro de Blueprints...
     from src.main import bp as main_bp
@@ -38,7 +40,8 @@ def create_app(config_class=Config):
 
     app.register_blueprint(main_bp, url_prefix='/')
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(api_bp, url_prefix='/api/v1')
+    # app.register_blueprint(api_bp, url_prefix='/api/v1')
+    smorest_api.register_blueprint(api_bp, url_prefix='/api/v1')
 
     from src.auth import utils
 
