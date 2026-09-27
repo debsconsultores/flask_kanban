@@ -25,6 +25,14 @@ def test_api():
 
 
 @bp.route("/tasks", methods=["GET"])
+@bp.response(200, tasks_schema)
+@bp.doc(
+    description="Obtiene las tareas del usuario autenticado"
+)
+@bp.alt_response(
+    401,
+    description="Token JWT ausente, inválido o expirado"
+)
 @jwt_required()
 def get_tasks():
     # tasks = Task.query.all()
