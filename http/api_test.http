@@ -106,17 +106,32 @@ POST http://127.0.0.1:5000/api/v1/tasks/1/process
 ### Prueba no existe
 POST http://127.0.0.1:5000/api/v1/tasks/9999/process
 
-Revisa la nueva tarea Celery procesar_task.
+
+Realiza una revisión de la integración de Celery en este proyecto Flask.
 
 No modifiques ningún archivo.
 
-Comprueba:
+Revisa:
 
-1. Que utilice el modelo Task correctamente.
-2. Que la consulta utilice SQLAlchemy 2.x.
-3. Que una tarea inexistente genere una excepción.
-4. Que el endpoint utilice .delay().
-5. Que Flask no ejecute directamente el procesamiento.
-6. Que la tarea sea compatible con el Flask application context.
+- src/extensions.py
+- celery_worker.py
+- src/tasks.py
+- src/api/routes.py
+- config.py
+- docker-compose.yml
 
-Indica únicamente problemas encontrados.
+Comprueba que:
+
+1. Redis sea utilizado como broker.
+2. Celery esté correctamente configurado.
+3. celery_worker.py utilice la Application Factory.
+4. Las tareas tengan acceso al Flask application context.
+5. Las tareas utilicen SQLAlchemy 2.x cuando consulten modelos.
+6. Flask utilice .delay() para enviar tareas.
+7. El Worker pueda recibir y ejecutar las tareas.
+8. Los estados SUCCESS y FAILURE puedan consultarse.
+9. No exista ninguna configuración innecesaria de RabbitMQ.
+10. No sea necesario un Dockerfile para el Worker en esta etapa del proyecto.
+
+No realices cambios.
+Indica únicamente problemas encontrados o recomendaciones.
