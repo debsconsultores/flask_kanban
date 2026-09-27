@@ -13,7 +13,7 @@ from src.api.schemas import tasks_schema, task_schema
 from src.extensions import db
 from src.models import Task, User
 
-from src.tasks import saludar, sumar, procesar_tarea, tarea_con_error, dividir
+from src.tasks import saludar, sumar, procesar_tarea, tarea_con_error, dividir, procesar_task
 
 @bp.route("/test", methods=["GET"])
 def test_api():
@@ -273,5 +273,18 @@ def test_celery_dividir(a, b):
 
     return {
         "message": "Tarea enviada correctamente",
+        "task_id": task.id
+    }, 202
+
+
+
+@bp.route("/tasks/<int:task_id>/process", methods=["POST"])
+def process_task(task_id):
+
+    # Enviamos el procesamiento al Worker.
+    task = procesar_task.delay(task_id)
+
+    return {
+        "message": "Procesamiento enviado correctamente",
         "task_id": task.id
     }, 202

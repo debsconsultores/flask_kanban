@@ -1,6 +1,7 @@
 import time
 
-from src.extensions import celery
+from src.extensions import celery, db
+from src.models import Task
 
 
 @celery.task
@@ -65,3 +66,28 @@ def dividir(a, b):
     print(f"Resultado: {resultado}")
 
     return resultado
+
+
+@celery.task
+def procesar_task(task_id):
+    """
+    Procesa una tarea del Kanban de forma asíncrona.
+    """
+
+    # Buscamos la tarea utilizando SQLAlchemy 2.x.
+    task = db.session.get(Task, task_id)
+
+    # Si no existe, informamos del problema.
+    if not task:
+        raise ValueError(f"La tarea {task_id} no existe.")
+
+    print(f"Procesando tarea: {task.title}")
+
+    # Aquí podremos incorporar posteriormente
+    # procesos más complejos.
+
+    return {
+        "task_id": task.id,
+        "title": task.title,
+        "message": "Tarea procesada correctamente."
+    }

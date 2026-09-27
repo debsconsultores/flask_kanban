@@ -98,3 +98,25 @@ POST http://127.0.0.1:5000/api/v1/test-celery/dividir/10/2
 
 ###ERROR:
 POST http://127.0.0.1:5000/api/v1/test-celery/dividir/10/0
+
+
+#### Prueba Task
+POST http://127.0.0.1:5000/api/v1/tasks/1/process
+
+### Prueba no existe
+POST http://127.0.0.1:5000/api/v1/tasks/9999/process
+
+Revisa la nueva tarea Celery procesar_task.
+
+No modifiques ningún archivo.
+
+Comprueba:
+
+1. Que utilice el modelo Task correctamente.
+2. Que la consulta utilice SQLAlchemy 2.x.
+3. Que una tarea inexistente genere una excepción.
+4. Que el endpoint utilice .delay().
+5. Que Flask no ejecute directamente el procesamiento.
+6. Que la tarea sea compatible con el Flask application context.
+
+Indica únicamente problemas encontrados.
