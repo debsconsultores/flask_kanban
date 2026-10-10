@@ -80,38 +80,46 @@ def api_login():
 
 @bp.route("/tasks", methods=["POST"])
 @jwt_required()
-def create_task():
+@bp.arguments(task_schema)
+@bp.response(201, task_schema)
+@bp.alt_response(
+    401,
+    description="Token JWT ausente, inválido o expirado"
+)
+def create_task(data):
     # Obtenemos la identidad del usuario autenticado.
     user_id = get_jwt_identity()
 
     # Obtenemos los datos enviados en formato JSON.
-    data = request.get_json()
+    # data = request.get_json()
 
     # Validamos que exista información en la petición.
     if not data:
         return error_response("No se recibieron datos", 400)
 
     # Obtenemos los campos de la nueva tarea.
-    title = data.get("title")
-    content = data.get("content")
+    # title = data["title"]
+    # content = data.get("content")
 
-    # Validamos el título.
-    if not title:
-        return error_response("El título es obligatorio", 400)
+    # # Validamos el título.
+    # if not title:
+    #     return error_response("El título es obligatorio", 400)
 
-    # Creamos la tarea asociándola al usuario autenticado.
-    task = Task(
-        title=title,
-        content=content,
-        user_id=int(user_id)
-    )
+    # # Creamos la tarea asociándola al usuario autenticado.
+    # task = Task(
+    #     title=title,
+    #     content=content,
+    #     user_id=int(user_id)
+    # )
+
+    data.user_id = user_id
 
     # Guardamos la nueva tarea.
-    db.session.add(task)
+    db.session.add(data)
     db.session.commit()
 
     # Convertimos la tarea a JSON.
-    result = task_schema.dump(task)
+    result = task_schema.dump(data)
 
     # Devolvemos la tarea creada.
     return jsonify(result), 201

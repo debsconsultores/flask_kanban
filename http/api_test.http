@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ### Obtener tareas JWT
 GET http://127.0.0.1:5000/api/v1/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4ODY3MjUyNiwianRpIjoiYzgyMWM2YzUtOTM5Zi00OTdiLTk0ZTQtMjRiMTE2MjZlMDVhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3ODg2NzI1MjYsImNzcmYiOiI4MWRjMWJjNi01MDdiLTRiOTYtOGM2NC0wNzM4YWNkZWZkNGIiLCJleHAiOjE3ODg2NzM0MjZ9.F_GjSZu7vDP5SX_Y5SEuUbIbEHacpJtufUVmm4LIoMw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc5MTE3NjY2MiwianRpIjoiYzFiYTU0YjItZjQ0NC00M2I2LWIxZTMtNWFjOGJhODc1MGM3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3OTExNzY2NjIsImNzcmYiOiIyZWI5NGIxMi1lMzIxLTQ5NjYtOGE1Yi0yZGY2MDI4ODY4MWQiLCJleHAiOjE3OTExNzc1NjJ9.0mpmNhF_yzZ8VmuGaKRwY1OkPH_vYWcIeXN9hXN5-_w
 
 
 ### Crear Tarea
@@ -106,3 +106,12 @@ POST http://127.0.0.1:5000/api/v1/tasks/1/process
 ### Prueba no existe
 POST http://127.0.0.1:5000/api/v1/tasks/9999/process
 
+###
+POST http://localhost:5000/api/v1/tasks
+Content-Type: application/json
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc5MTE3NjY2MiwianRpIjoiYzFiYTU0YjItZjQ0NC00M2I2LWIxZTMtNWFjOGJhODc1MGM3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3OTExNzY2NjIsImNzcmYiOiIyZWI5NGIxMi1lMzIxLTQ5NjYtOGE1Yi0yZGY2MDI4ODY4MWQiLCJleHAiOjE3OTExNzc1NjJ9.0mpmNhF_yzZ8VmuGaKRwY1OkPH_vYWcIeXN9hXN5-_w
+
+{
+    "title": "Tarea creada desde la API",
+    "content": "Probando la documentación OpenAPI"
+}
