@@ -27,7 +27,8 @@ def test_api():
 @bp.route("/tasks", methods=["GET"])
 @bp.response(200, tasks_schema)
 @bp.doc(
-    description="Obtiene las tareas del usuario autenticado"
+    description="Obtiene las tareas del usuario autenticado",
+    security=[{"bearerAuth": []}]
 )
 @bp.alt_response(
     401,
@@ -80,6 +81,10 @@ def api_login():
 
 @bp.route("/tasks", methods=["POST"])
 @jwt_required()
+@bp.doc(
+    description="Obtiene las tareas del usuario autenticado.",
+    security=[{"bearerAuth": []}]
+)
 @bp.arguments(task_schema)
 @bp.response(201, task_schema)
 @bp.alt_response(
@@ -127,6 +132,9 @@ def create_task(data):
 
 @bp.route("/tasks/<int:task_id>", methods=["PUT"])
 @jwt_required()
+@bp.doc(
+    security=[{"bearerAuth": []}]
+)
 def update_task(task_id):
     # Obtenemos la identidad del usuario autenticado.
     user_id = get_jwt_identity()
@@ -176,6 +184,9 @@ def update_task(task_id):
 
 
 @bp.route("/tasks/<int:task_id>", methods=["DELETE"])
+@bp.doc(
+    security=[{"bearerAuth": []}]
+)
 @jwt_required()
 def delete_task(task_id):
     # Obtenemos la identidad del usuario autenticado.
