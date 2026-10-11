@@ -133,6 +133,7 @@ def create_task(data):
 @bp.route("/tasks/<int:task_id>", methods=["PUT"])
 @jwt_required()
 @bp.doc(
+    description="Actualiza una tarea perteneciente al usuario autenticado.",
     security=[{"bearerAuth": []}]
 )
 @bp.alt_response(
@@ -189,6 +190,7 @@ def update_task(task_id):
 
 @bp.route("/tasks/<int:task_id>", methods=["DELETE"])
 @bp.doc(
+    description="Elimina lógicamente una tarea del usuario autenticado.",
     security=[{"bearerAuth": []}]
 )
 @bp.alt_response(
