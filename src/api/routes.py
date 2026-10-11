@@ -9,7 +9,13 @@ from sqlalchemy import select
 from celery.result import AsyncResult
 
 from src.api import bp
-from src.api.schemas import tasks_schema, task_schema, login_schema, task_create_schema
+from src.api.schemas import (
+    tasks_schema,
+    task_schema,
+    login_schema,
+    task_create_schema,
+    task_update_schema
+    )
 from src.extensions import db
 from src.models import Task, User
 
@@ -144,6 +150,8 @@ def create_task(data):
 
 
 @bp.route("/tasks/<int:task_id>", methods=["PUT"])
+@bp.arguments(task_update_schema)
+@bp.response(200, task_schema)
 @jwt_required()
 @bp.doc(
     description="Actualiza una tarea perteneciente al usuario autenticado.",
@@ -153,12 +161,12 @@ def create_task(data):
     404,
     description="La tarea no existe o no pertenece al usuario autenticado."
 )
-def update_task(task_id):
+def update_task(data, task_id):
     # Obtenemos la identidad del usuario autenticado.
     user_id = get_jwt_identity()
 
     # Obtenemos los datos enviados por el cliente.
-    data = request.get_json()
+    # data = request.get_json()
 
     # Buscamos únicamente una tarea perteneciente
     # al usuario autenticado.
@@ -196,9 +204,10 @@ def update_task(task_id):
     db.session.commit()
 
     # Serializamos la tarea actualizada.
-    result = task_schema.dump(task)
+    # result = task_schema.dump(task)
 
-    return jsonify(result), 200
+    # return jsonify(result), 200
+    return task
 
 
 @bp.route("/tasks/<int:task_id>", methods=["DELETE"])

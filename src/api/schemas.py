@@ -22,7 +22,15 @@ class TaskCreateSchema(Schema):
     content = fields.String(required=False, allow_none=True)
 
 
+class TaskUpdateSchema(Schema):
+    title = fields.String(required=False)
+    content = fields.String(required=False, allow_none=True)
+    status = fields.String(required=False)
+
+
 task_schema = TaskSchema()
 tasks_schema = TaskSchema(many=True)
 login_schema = LoginSchema()
 task_create_schema = TaskCreateSchema()
+task_update_schema = TaskUpdateSchema()
+
