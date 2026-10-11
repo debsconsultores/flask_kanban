@@ -135,6 +135,10 @@ def create_task(data):
 @bp.doc(
     security=[{"bearerAuth": []}]
 )
+@bp.alt_response(
+    404,
+    description="La tarea no existe o no pertenece al usuario autenticado."
+)
 def update_task(task_id):
     # Obtenemos la identidad del usuario autenticado.
     user_id = get_jwt_identity()
@@ -186,6 +190,10 @@ def update_task(task_id):
 @bp.route("/tasks/<int:task_id>", methods=["DELETE"])
 @bp.doc(
     security=[{"bearerAuth": []}]
+)
+@bp.alt_response(
+    404,
+    description="La tarea no existe o no pertenece al usuario autenticado."
 )
 @jwt_required()
 def delete_task(task_id):
