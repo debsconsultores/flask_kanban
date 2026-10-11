@@ -28,6 +28,12 @@ def test_api():
     }), 200
 
 
+@bp.route("/info", methods=["GET"])
+def info():
+    return jsonify({
+        "name": "Kanban Pro",
+        "version": "1.0"
+    }), 200
 
 
 @bp.route("/tasks", methods=["GET"])
