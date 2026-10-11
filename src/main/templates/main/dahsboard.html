@@ -318,7 +318,7 @@
         .then(data => {
             // console.log(data);
             
-            apiStatus.textContent = "API Conectada";
+            // apiStatus.textContent = "API Conectada";
             apiInfo.textContent = `${data.name} . versión ${data.version}`;
         })
         .catch(error => {
@@ -327,6 +327,19 @@
             apiInfo.textContent = "No fue posible comunicarse con el servidor";
         });
 
+
+    fetch("/api/v1/test", {method: "GET" })
+        .then(response => response.json())
+        .then(data => {
+            
+            apiStatus.textContent = data.mensaje;
+
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            apiStatus.textContent = "Error de conexión con la API";
+            apiInfo.textContent = "No fue posible comunicarse con el servidor";
+        });
 </script>
 
 {% endblock %}
