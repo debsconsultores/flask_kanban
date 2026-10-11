@@ -9,7 +9,7 @@ from sqlalchemy import select
 from celery.result import AsyncResult
 
 from src.api import bp
-from src.api.schemas import tasks_schema, task_schema
+from src.api.schemas import tasks_schema, task_schema, login_schema, task_create_schema
 from src.extensions import db
 from src.models import Task, User
 
@@ -54,9 +54,19 @@ def get_tasks():
 
 
 @bp.route('/login', methods=["POST"])
-def api_login():
+@bp.arguments(login_schema)
+@bp.response(
+    200,
+    description="Login exitoso. Devuelve un token JWT."
+)
+@bp.alt_response(
+    401,
+    description="Credenciales inválidas."
+)
 
-    data = request.get_json()
+def api_login(data):
+
+    # data = request.get_json()
 
     email = data.get("email")
     password = data.get("password")
@@ -85,7 +95,7 @@ def api_login():
     description="Obtiene las tareas del usuario autenticado.",
     security=[{"bearerAuth": []}]
 )
-@bp.arguments(task_schema)
+@bp.arguments(task_create_schema)
 @bp.response(201, task_schema)
 @bp.alt_response(
     401,
@@ -103,31 +113,34 @@ def create_task(data):
         return error_response("No se recibieron datos", 400)
 
     # Obtenemos los campos de la nueva tarea.
-    # title = data["title"]
-    # content = data.get("content")
+    title = data["title"]
+    content = data.get("content")
 
     # # Validamos el título.
     # if not title:
     #     return error_response("El título es obligatorio", 400)
 
-    # # Creamos la tarea asociándola al usuario autenticado.
-    # task = Task(
-    #     title=title,
-    #     content=content,
-    #     user_id=int(user_id)
-    # )
+    # Creamos la tarea asociándola al usuario autenticado.
+    task = Task(
+        title=title,
+        content=content,
+        user_id=int(user_id)
+    )
 
-    data.user_id = user_id
+    # data.user_id = user_id
+    # data["user_id"] = user_id
+    # task = Task(**data)
 
     # Guardamos la nueva tarea.
-    db.session.add(data)
+    db.session.add(task)
     db.session.commit()
 
-    # Convertimos la tarea a JSON.
-    result = task_schema.dump(data)
+    # # Convertimos la tarea a JSON.
+    # result = task_schema.dump(task)
 
-    # Devolvemos la tarea creada.
-    return jsonify(result), 201
+    # # Devolvemos la tarea creada.
+    # return jsonify(result), 201
+    return task
 
 
 @bp.route("/tasks/<int:task_id>", methods=["PUT"])
