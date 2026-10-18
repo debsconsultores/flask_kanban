@@ -340,6 +340,76 @@
             apiStatus.textContent = "Error de conexión con la API";
             apiInfo.textContent = "No fue posible comunicarse con el servidor";
         });
+
+
+async function loginApi(email, password) {
+
+    const response = await fetch("/api/v1/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.error || "No fue posible iniciar sesión"
+        );
+    }
+
+    return data;
+}
+
+loginApi(
+    "test@test.com",
+    "123456"
+)
+    .then(data => {
+
+        sessionStorage.setItem(
+            "access_token",
+            data.access_token
+        );
+        console.log("Login exitoso");
+        console.log(data);
+
+        return loadTasks();
+
+    })
+    .catch(error => {
+
+        console.error(
+            "Error de autenticación:",
+            error.message
+        );
+});
+
+async function loadTasks() {
+    const token = sessionStorage.getItem(
+        "access_token"
+    );
+
+    const response = await fetch(
+        "/api/v1/tasks",
+        {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+}
 </script>
+
 
 {% endblock %}
