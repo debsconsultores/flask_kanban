@@ -49,6 +49,12 @@ class Task(db.Model, SoftDeleteMixin):
     title = db.Column(db.String(200), nullable=True)
     content = db.Column(db.Text)
 
+    status = db.Column(
+        db.String(20),
+        nullable=False,
+        default="pending"
+    )
+    
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
