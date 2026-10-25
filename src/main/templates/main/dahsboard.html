@@ -657,7 +657,83 @@ const cancelEditTask = document.getElementById(
     "cancel-edit-task"
 );
 
+cancelEditTask.addEventListener("click", () => {
+    editTaskForm.reset();
+    editTaskContainer.classList.add("hidden");
+});
 
+editTaskForm.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
+
+        try {
+            const id = editTaskId.value;
+
+            const title = editTaskTitle.value.trim();
+
+            const content = editTaskContent.value.trim();
+
+            const token = sessionStorage.getItem(
+                "access_token"
+            );
+
+            if (!token) {
+                console.error(
+                    "No se encontró el token de autenticación."
+                );
+                return;
+            }
+
+            const taskData = {
+                title: title,
+                content: content
+            };
+
+            // Aquí realizaremos la petición PUT.
+            const response = await fetch(
+                `/api/v1/tasks/${id}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify(taskData)
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error(
+                    "Error al actualizar:",
+                    data
+                );
+                return;
+            }
+
+            console.log(
+                "Tarea actualizada:",
+                data
+            );
+
+            editTaskForm.reset();
+
+            editTaskContainer.classList.add("hidden");
+
+            await loadTasks();
+
+        } catch (error) {
+            console.error(
+                "Error al actualizar la tarea:",
+                error
+            );
+        }
+    }
+);
 
 </script>
 
