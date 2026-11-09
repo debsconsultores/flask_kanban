@@ -1,0 +1,31 @@
+Ahora quiero una segunda revisión específica.
+
+NO MODIFIQUES ningún archivo.
+
+Analiza exclusivamente el flujo de actualización del estado de una tarea.
+
+Revisa este recorrido completo:
+
+1. Selector de estado del Dashboard.
+2. Evento change.
+3. Obtención del task.id.
+4. Obtención del nuevo status.
+5. Función updateTaskStatus().
+6. Petición PUT /api/v1/tasks/<id>.
+7. JWT enviado en Authorization.
+8. update_task() en Flask.
+9. Validación de pending, in_progress y completed.
+10. Commit en SQLAlchemy.
+11. loadTasks().
+12. Limpieza de las tres columnas.
+13. Renderizado de la tarea en su nueva columna.
+
+Quiero saber si existe algún punto donde la tarea pueda:
+
+- quedar duplicada,
+- permanecer visualmente en la columna anterior,
+- perder su ID,
+- utilizar un status incorrecto,
+- actualizarse en PostgreSQL pero no reflejarse correctamente en pantalla.
+
+No corrijas nada. Devuelve solamente los hallazgos y recomendaciones.

@@ -1,0 +1,61 @@
+Quiero que hagas una revisión técnica del Dashboard Kanban de este proyecto Flask.
+
+IMPORTANTE:
+- NO modifiques ningún archivo.
+- NO crees archivos.
+- NO elimines archivos.
+- NO refactorices código.
+- NO ejecutes comandos que modifiquen el proyecto.
+- Esta revisión es únicamente de análisis.
+
+Revisa especialmente:
+
+1. src/main/templates/main/dahsboard.html
+2. src/api/routes.py
+3. src/api/schemas.py
+4. src/models.py
+
+Analiza la integración entre el frontend y la API REST.
+
+Comprueba:
+
+- Consumo de GET /api/v1/tasks
+- Creación mediante POST
+- Edición mediante PUT
+- Eliminación mediante DELETE
+- Actualización del status mediante PUT
+- Uso del JWT almacenado en sessionStorage
+- Uso correcto del ID de cada tarea
+- Estados pending, in_progress y completed
+- Renderizado de las tres columnas del Kanban
+- Drag & Drop
+- Edición de tareas
+- Eliminación mediante modal
+- Manejo de errores en JavaScript
+- Posibles duplicaciones de tarjetas
+- Posibles referencias a variables o elementos inexistentes
+- Inconsistencias entre HTML y JavaScript
+- Inconsistencias entre JavaScript y los endpoints Flask
+- Posibles problemas de seguridad o autorización
+
+No quiero que corrijas nada todavía.
+
+Quiero únicamente un informe de hallazgos clasificados como:
+
+CRÍTICO
+IMPORTANTE
+MEJORA
+CORRECTO
+
+Para cada hallazgo indica:
+
+- archivo
+- ubicación aproximada
+- problema
+- por qué puede ocurrir
+- recomendación
+
+Al finalizar, proporciona una conclusión general sobre la coherencia entre frontend, API y modelo.
+
+
+
