@@ -44,6 +44,15 @@
             <span class="text-lg">+</span>
             Nueva tarea
         </button>
+        <button
+            id="modal-task-button"
+            type="button"
+            class="rounded-lg bg-purple-600 px-4 py-2
+                text-sm font-medium text-white
+                hover:bg-purple-700"
+        >
+            Crear / Editar con modal
+        </button>
     </div>
 
     <!-- Mensajes del sistema -->
@@ -367,6 +376,83 @@
     </div>
 </div>
 
+<!-- Modal para crear y editar -->
+<div
+    id="modal-task"
+    class="hidden fixed inset-0 z-50 flex items-center
+           justify-center bg-black/50 p-4"
+>
+    <div
+        class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl"
+    >
+        <h2
+            id="modal-task-title"
+            class="text-xl font-semibold text-gray-900"
+        >
+            Nueva tarea
+        </h2>
+
+        <form id="modal-task-form" class="mt-6 space-y-4">
+            <input
+                type="hidden"
+                id="modal-task-id"
+            >
+
+            <div>
+                <label
+                    for="modal-task-title-input"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Título
+                </label>
+
+                <input
+                    id="modal-task-title-input"
+                    type="text"
+                    required
+                    class="mt-1 block w-full rounded-lg
+                           border border-gray-300 px-3 py-2"
+                >
+            </div>
+
+            <div>
+                <label
+                    for="modal-task-content"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Contenido
+                </label>
+
+                <textarea
+                    id="modal-task-content"
+                    rows="4"
+                    class="mt-1 block w-full rounded-lg
+                           border border-gray-300 px-3 py-2"
+                ></textarea>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4">
+                <button
+                    id="modal-task-cancel"
+                    type="button"
+                    class="rounded-lg border border-gray-300
+                           px-4 py-2 text-sm text-gray-700"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    id="modal-task-save"
+                    type="submit"
+                    class="rounded-lg bg-purple-600
+                           px-4 py-2 text-sm text-white"
+                >
+                    Crear tarea
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
 
@@ -607,21 +693,50 @@ function createTaskCard(task) {
 }
 
 document.addEventListener("click", (event) => {
-    const editButton = event.target.closest(".edit-task");
+    // const editButton = event.target.closest(".edit-task");
 
-    if (!editButton) {
-        return;
-    }
+    // if (!editButton) {
+    //     return;
+    // }
 
-    const taskId = Number(editButton.dataset.taskId);
+    // const taskId = Number(editButton.dataset.taskId);
+
+    // const task = tasks.find(
+    //     task => task.id === taskId
+    // );
+
+    // if (task) {
+    //     openEditTask(task);
+    // }
+
+    const taskId = Number(
+        event.target.dataset.taskId
+    );
 
     const task = tasks.find(
         task => task.id === taskId
     );
 
-    if (task) {
-        openEditTask(task);
+    if (!task) {
+        return;
     }
+
+    modalTaskId.value = task.id;
+
+    modalTaskTitleInput.value =
+        task.title || "";
+
+    modalTaskContent.value =
+        task.content || "";
+
+    modalTaskTitle.textContent =
+        "Editar tarea";
+
+    modalTaskSave.textContent =
+        "Guardar cambios";
+
+    modalTask.classList.remove("hidden");
+    modalTaskTitleInput.focus();
 });
 
 function openEditTask(task) {
@@ -1102,6 +1217,152 @@ const completedCount = document.getElementById(
     "completed-count"
 );
 
+
+const modalTaskButton = document.getElementById(
+    "modal-task-button"
+);
+
+const modalTask = document.getElementById(
+    "modal-task"
+);
+
+const modalTaskTitle = document.getElementById(
+    "modal-task-title"
+);
+
+const modalTaskForm = document.getElementById(
+    "modal-task-form"
+);
+
+const modalTaskId = document.getElementById(
+    "modal-task-id"
+);
+
+const modalTaskTitleInput = document.getElementById(
+    "modal-task-title-input"
+);
+
+const modalTaskContent = document.getElementById(
+    "modal-task-content"
+);
+
+const modalTaskCancel = document.getElementById(
+    "modal-task-cancel"
+);
+
+const modalTaskSave = document.getElementById(
+    "modal-task-save"
+);
+
+
+modalTaskButton.addEventListener("click", () => {
+    modalTaskForm.reset();
+    modalTaskId.value = "";
+
+    modalTaskTitle.textContent =
+        "Nueva tarea";
+
+    modalTaskSave.textContent =
+        "Crear tarea";
+
+    modalTask.classList.remove("hidden");
+    modalTaskTitleInput.focus();
+});
+
+modalTaskCancel.addEventListener(
+    "click",
+    () => {
+        modalTask.classList.add("hidden");
+        modalTaskForm.reset();
+        modalTaskId.value = "";
+    }
+);
+
+
+modalTaskForm.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
+
+        const taskId = modalTaskId.value;
+
+        const title =
+            modalTaskTitleInput.value.trim();
+
+        const content =
+            modalTaskContent.value.trim();
+
+        const token =
+            sessionStorage.getItem(
+                "access_token"
+            );
+
+        const isEditing =
+            taskId !== "";
+
+        const url = isEditing
+            ? `/api/v1/tasks/${taskId}`
+            : "/api/v1/tasks";
+
+        const method = isEditing
+            ? "PUT"
+            : "POST";
+
+        try {
+            const response = await fetch(
+                url,
+                {
+                    method: method,
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        content: content
+                    })
+                }
+            );
+
+            const data =
+                await response.json();
+
+            if (!response.ok) {
+                showMessage(
+                    data.error ||
+                    "No fue posible guardar la tarea.",
+                    "error"
+                );
+                return;
+            }
+
+            modalTask.classList.add("hidden");
+            modalTaskForm.reset();
+            modalTaskId.value = "";
+
+            await loadTasks();
+
+            showMessage(
+                isEditing
+                    ? "Tarea actualizada correctamente."
+                    : "Tarea creada correctamente.",
+                "success"
+            );
+        } catch (error) {
+            console.error(
+                "Error guardando la tarea:",
+                error
+            );
+
+            showMessage(
+                "No fue posible guardar la tarea.",
+                "error"
+            );
+        }
+    }
+);
 </script>
 
 
