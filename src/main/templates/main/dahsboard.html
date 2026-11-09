@@ -462,6 +462,16 @@ function createTaskCard(task) {
     const article = document.createElement("article");
 
     article.dataset.taskId = task.id;
+    article.draggable = true;
+    article.className =
+        "rounded-lg border border-gray-200 bg-white p-4 shadow-sm";
+
+    article.addEventListener("dragstart", (event) => {
+        event.dataTransfer.setData(
+            "text/plain",
+            task.id
+        );
+    });
 
     const editButton = document.createElement("button");
     editButton.type = "button";
@@ -887,6 +897,45 @@ async function updateTaskStatus(taskId, status) {
         );
     }
 }
+
+document.addEventListener("dragover", (event) => {
+    const column = event.target.closest("#tasks-pending, #tasks-in-progress, #tasks-completed");
+    if (column) {
+        event.preventDefault(); // ¡Crucial para permitir el drop!
+    }
+});
+
+document.addEventListener("drop", (event) => {
+    const container = event.target.closest(
+        "#tasks-pending, #tasks-in-progress, #tasks-completed"
+    );
+
+    if (!container) {
+        return;
+    }
+
+    event.preventDefault();
+
+    const taskId = Number(
+        event.dataTransfer.getData("text/plain")
+    );
+
+    let status;
+
+    if (container.id === "tasks-pending") {
+        status = "pending";
+    }
+
+    if (container.id === "tasks-in-progress") {
+        status = "in_progress";
+    }
+
+    if (container.id === "tasks-completed") {
+        status = "completed";
+    }
+
+    updateTaskStatus(taskId, status);
+});
 
 </script>
 
