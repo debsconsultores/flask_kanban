@@ -439,7 +439,7 @@ async function loadTasks() {
             console.log(task.title);
             const card = createTaskCard(task)
             // container.appendChild(card)
-            
+
             if (task.status === "pending") {
                 pendingContainer.appendChild(card);
             }
@@ -832,6 +832,61 @@ editTaskForm.addEventListener(
         }
     }
 );
+
+document.addEventListener("change", (event) => {
+    if (!event.target.classList.contains("task-status")) {
+        return;
+    }
+
+    const taskId = Number(
+        event.target.dataset.taskId
+    );
+
+    const status = event.target.value;
+
+    updateTaskStatus(taskId, status);
+});
+
+async function updateTaskStatus(taskId, status) {
+    try {
+        const token = sessionStorage.getItem("access_token");
+
+        const taskData = {
+            status: status
+        };
+
+        const response = await fetch(
+            `/api/v1/tasks/${taskId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(taskData)
+            }
+        );
+
+        if (!response.ok) {
+            console.error(
+                "Error al actualizar el estado:",
+                response.status
+            );
+            return;
+        }
+
+        console.log(
+            "Estado actualizado correctamente"
+        );
+
+        await loadTasks();
+    } catch (error) {
+        console.error(
+            "Error al actualizar el estado:",
+            error
+        );
+    }
+}
 
 </script>
 

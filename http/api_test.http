@@ -115,3 +115,13 @@ Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2Us
     "title": "Tarea creada desde la API",
     "content": "Probando la documentación OpenAPI"
 }
+
+
+### Cambio de Estado
+PUT http://127.0.0.1:5000/api/v1/tasks/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc5NDIwMTc5OCwianRpIjoiNDU1MDcxMGEtYmViZS00ZTYxLTllMWUtZjkzOTVhOTg0NGZkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3OTQyMDE3OTgsImNzcmYiOiI5YzkwMGEwOC1lOGExLTQyODctYTgyZS01NTY3MzgwNjViZGIiLCJleHAiOjE3OTQyMDI2OTh9.1xjzwflGoUIsRFCWJcSCjkLDU3pIC1UYMRDaZBKvEqs
+
+{
+    "status":"pending"
+}

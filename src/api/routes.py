@@ -206,6 +206,21 @@ def update_task(data, task_id):
 
         task.content = data["content"]
 
+    if "status" in data:
+        allowed_statuses = {
+            "pending",
+            "in_progress",
+            "completed"
+        }
+
+        if data["status"] not in allowed_statuses:
+            return error_response(
+                "Estado de tarea no válido",
+                400
+            )
+
+        task.status = data["status"]
+
     # Guardamos los cambios.
     db.session.commit()
 
