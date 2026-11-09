@@ -403,7 +403,9 @@ loginApi(
 
 });
 
-const container = document.getElementById("tasks-pending");
+const pendingContainer = document.getElementById("tasks-pending");
+const inProgressContainer = document.getElementById("tasks-in-progress");
+const completedContainer = document.getElementById("tasks-completed");
 
 let tasks = [];
 
@@ -429,12 +431,26 @@ async function loadTasks() {
 
         console.log(tasks);
 
-        container.innerHTML = "";
+        pendingContainer.innerHTML = "";
+        inProgressContainer.innerHTML = "";
+        completedContainer.innerHTML = "";
         
         tasks.forEach(task => {
             console.log(task.title);
             const card = createTaskCard(task)
-            container.appendChild(card)
+            // container.appendChild(card)
+            
+            if (task.status === "pending") {
+                pendingContainer.appendChild(card);
+            }
+
+            if (task.status === "in_progress") {
+                inProgressContainer.appendChild(card);
+            }
+
+            if (task.status === "completed") {
+                completedContainer.appendChild(card);
+            }
         });
     } catch(error){
         console.error("Error Cargando Tareas", error)
@@ -495,8 +511,18 @@ function createTaskCard(task) {
             </span>
         </div>
     `;
+    const statusSelect = document.createElement("select");
+    statusSelect.className = "task-status text-sm border rounded px-2 py-1";
+    statusSelect.dataset.taskId = task.id;
+    statusSelect.innerHTML = `
+        <option value="pending">Pendiente</option>
+        <option value="in_progress">En progreso</option>
+        <option value="completed">Completada</option>
+    `;
+    statusSelect.value = task.status;
 
     const actions = document.createElement("div");
+     actions.appendChild(statusSelect);
     actions.appendChild(editButton);
     actions.appendChild(deleteButton);
     article.appendChild(actions);
