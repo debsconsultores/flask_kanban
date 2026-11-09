@@ -46,6 +46,13 @@
         </button>
     </div>
 
+    <!-- Mensajes del sistema -->
+    <div
+        id="dashboard-message"
+        class="hidden rounded-lg border px-4 py-3 text-sm"
+        role="alert"
+    ></div>
+
     <div
         id="task-form-container"
         class="hidden mb-6 bg-white rounded-xl shadow-sm border border-gray-200 p-6"
@@ -493,8 +500,11 @@ async function loadTasks() {
                 completedContainer.appendChild(card);
             }
         });
+
+        // showMessage("Tareas Cargadas Satisfactoriamente")
     } catch(error){
         console.error("Error Cargando Tareas", error)
+        showMessage("No fue posible cargar las tareas","error")
     }
 }   
 
@@ -654,6 +664,7 @@ async function deleteTask(taskId) {
             console.error(
                 "No se encontró el token de autenticación."
             );
+            showMessage("No se encontró el token de autenticación","error");
             return;
         }
 
@@ -672,10 +683,12 @@ async function deleteTask(taskId) {
                 "Error al eliminar la tarea:",
                 response.status
             );
+            showMessage(data.error || "Error al eliminar la tarea","error");
             return;
         }
 
         console.log("Tarea eliminada correctamente");
+        showMessage("Tarea eliminada correctamente");
 
         // Reutilizar la función existente
         await loadTasks();
@@ -768,6 +781,7 @@ taskForm.addEventListener("submit", async (event) => {
                 "Error al crear la tarea:",
                 data
             );
+            showMessage(data.error || "No fue posible crear la tarea","error");
             return;
         }
 
@@ -775,6 +789,7 @@ taskForm.addEventListener("submit", async (event) => {
             "Tarea creada correctamente:",
             data
         );
+        showMessage("Tarea Creada Correctamente","success");
 
         // NUEVO: limpiar y ocultar el formulario
         taskForm.reset();
@@ -871,6 +886,7 @@ editTaskForm.addEventListener(
                     "Error al actualizar:",
                     data
                 );
+                showMessage(data.error || "Error al Actualizar","error");
                 return;
             }
 
@@ -878,6 +894,7 @@ editTaskForm.addEventListener(
                 "Tarea actualizada:",
                 data
             );
+            showMessage("Tarea Actualizada");
 
             editTaskForm.reset();
 
@@ -933,12 +950,14 @@ async function updateTaskStatus(taskId, status) {
                 "Error al actualizar el estado:",
                 response.status
             );
+            showMessage(data.error || "Error al Actualizar el Estado","error");
             return;
         }
 
         console.log(
             "Estado actualizado correctamente"
         );
+        showMessage("Estado Actualizado Correctamente");
 
         await loadTasks();
     } catch (error) {
@@ -1023,6 +1042,39 @@ confirmDeleteButton.addEventListener(
         await deleteTask(taskId);
     }
 );
+
+const dashboardMessage = document.getElementById(
+    "dashboard-message"
+);
+
+function showMessage(message, type = "success") {
+    dashboardMessage.textContent = message;
+
+    dashboardMessage.classList.remove(
+        "hidden",
+        "border-green-200",
+        "bg-green-50",
+        "text-green-800",
+        "border-red-200",
+        "bg-red-50",
+        "text-red-800"
+    );
+
+    if (type === "error") {
+        dashboardMessage.classList.add(
+            "border-red-200",
+            "bg-red-50",
+            "text-red-800"
+        );
+    } else {
+        dashboardMessage.classList.add(
+            "border-green-200",
+            "bg-green-50",
+            "text-green-800"
+        );
+    }
+}
+
 </script>
 
 
